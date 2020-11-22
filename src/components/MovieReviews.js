@@ -1,13 +1,15 @@
 import React from 'react';
 
 const MovieReviews = (props) => {
-    return (    
+    return (
         <div>
             {props.reviews.map(review => {
                 return <div>
                     <h3>{review.headline}</h3>
-                    <img src={review.multimedia.src} alt="movie poster"/>
-                    <p>{review.summary_short}</p>
+                    {review.multimedia ? 
+                    <img src={review.multimedia.src} alt="movie poster"/> :
+                    <p>This movie has no image.</p>}  
+                    <p>{review.summary_short}</p>                   
                     </div>
             })}
         </div>

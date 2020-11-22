@@ -3,8 +3,8 @@ import 'isomorphic-fetch';
 import MovieReviews from './MovieReviews'
 
 const NYT_API_KEY = 'uL30J5JvWFO6KYKwMVTj2GHeHG0dmymp'
-const BASE_URL = 'https://api.nytimes.com/svc/movies/v2/reviews/search.json?query='
-const END_URL =  `api-key=${NYT_API_KEY}`
+const BASE_URL = 'https://api.nytimes.com/svc/movies/v2/reviews/search.json?'
+const END_URL =  `api-key=${NYT_API_KEY}&query=`
 
 class SearchableMoviewReviewsContainer extends Component {
     
@@ -16,12 +16,14 @@ class SearchableMoviewReviewsContainer extends Component {
       handleSearchInputChange = event =>
         this.setState({ searchTerm: event.target.value });
     
-      handleSubmit = event => {
+      
+        handleSubmit = event => {
         event.preventDefault()
-        debugger
-        fetch(BASE_URL.concat(this.state.searchTerm, END_URL))
+        
+        let url  = BASE_URL.concat(END_URL,this.state.searchTerm)        
+        fetch(url)
           .then(res => res.json())
-          .then(console.log)
+          .then(({ results }) => this.setState({reviews: results}))
       };
     
       render() {
@@ -37,9 +39,13 @@ class SearchableMoviewReviewsContainer extends Component {
               />
               <button type="submit">Submit</button>
             </form>
-            {typeof this.state.reviews === 'object' &&
-              this.state.reviews.length > 0 && <h2>Movie Review By Search:</h2>}
-            <MovieReviews reviews={this.state.reviews} />
+            <h2>Movie Review By Search:</h2>
+              <div className='review-list'>
+                {this.state.reviews.length > 0 ?
+                <MovieReviews reviews={this.state.reviews} /> :
+                <p>There are currently no results.</p>
+                } 
+              </div>
           </div>
         );
       }
