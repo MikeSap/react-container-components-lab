@@ -24,7 +24,9 @@ class LastestMovieReviewContainer extends Component {
         return ( 
             <div className='latest-movie-reviews'>
                 <h2>The latest reviews:</h2>
-                <MovieReviews reviews={this.state.reviews} />
+                <div className='review-list'>
+                    <MovieReviews reviews={this.state.reviews} />
+                </div>
             </div>
          );
     }
